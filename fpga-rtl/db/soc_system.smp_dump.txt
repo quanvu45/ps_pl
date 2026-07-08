@@ -35,7 +35,7 @@ state.S_WR_RX_FLAG 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1
 state.S_CLR_TX 0 1 0 0 0 0 0 0 0 0 0 0 0 0 1 
 state.S_DONE 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
 
-State Machine - |ghrd_top|soc_system:u0|soc_system_mm_interconnect_0:mm_interconnect_0|altera_merlin_burst_adapter:pio_led_s1_burst_adapter|altera_merlin_burst_adapter_13_1:altera_merlin_burst_adapter_13_1.burst_adapter|state
+State Machine - |ghrd_top|soc_system:u0|soc_system_mm_interconnect_0:mm_interconnect_0|altera_merlin_burst_adapter:pio_s1_burst_adapter|altera_merlin_burst_adapter_13_1:altera_merlin_burst_adapter_13_1.burst_adapter|state
 Name state.ST_IDLE state.ST_UNCOMP_WR_SUBBURST state.ST_UNCOMP_TRANS state.ST_COMP_TRANS 
 state.ST_IDLE 0 0 0 0 
 state.ST_COMP_TRANS 1 0 0 1 

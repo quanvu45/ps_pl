@@ -56,7 +56,9 @@
 				0x00000001 0x00010040 0xFF210040 0x00000020 
 				0x00000001 0x00010080 0xFF210080 0x00000010 
 				0x00000001 0x000100C0 0xFF2100C0 0x00000010 
-				0x00000001 0x00020000 0xFF220000 0x00000008 >;
+				0x00000001 0x00020000 0xFF220000 0x00000008 
+				0x00000001 0x00040000 0xFF240000 0x00010000 
+				0x00000001 0x00000000 0xFF200000 0x00000010 >;
 
 			sysid_qsys: sysid@0x100010000 {
 				compatible = "ALTR,sysid-13.1", "ALTR,sysid-1.0", "altr,sysid-1.0";
@@ -106,6 +108,19 @@
 				interrupt-parent = < &hps_0_arm_gic_0 >;
 				interrupts = < 0 42 4 >;
 			}; //end serial@0x100020000 (jtag_uart)
+
+			msg_mem_0: memory@0x100040000 {
+				compatible = "generic-uio";
+				reg = < 0x00000001 0x00040000 0x00010000 >;
+			};
+
+			pio_irq: gpio@0x100000000 {
+				compatible = "generic-uio";
+				reg = < 0x00000001 0x00000000 0x00000010 >;
+				interrupt-parent = < &hps_0_arm_gic_0 >;
+				/* IRQ = 0 corresponds to GIC SPI 40. Change to 41 if you used IRQ 1 */
+				interrupts = < 0 40 4 >;
+			};
 		}; //end bridge@0xc0000000 (hps_0_bridges)
 
 		hps_0_arm_gic_0: intc@0xfffed000 {

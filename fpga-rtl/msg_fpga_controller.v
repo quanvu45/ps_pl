@@ -29,7 +29,8 @@ module msg_fpga_controller (
     output reg [7:0]  last_msg_type,    // Last received msg_type (for HEX)
     output reg [15:0] msg_count,        // Total messages processed
     output reg        checksum_err,     // Checksum mismatch flag
-    output reg        busy              // Currently processing a message
+    output reg        busy,             // Currently processing a message
+    output reg        irq_pulse         // 1-cycle pulse to trigger PIO interrupt
 );
 
 // =========================================================================
@@ -110,10 +111,12 @@ always @(posedge clk or negedge reset_n) begin
         word_idx     <= 16'h0;
         tx_calc_crc  <= 32'h0;
         rx_calc_crc  <= 32'h0;
+        irq_pulse    <= 1'b0;
     end else begin
         // Default: deassert bus control signals every cycle
         mem_read  <= 1'b0;
         mem_write <= 1'b0;
+        irq_pulse <= 1'b0; // Default to 0, only pulse 1 cycle when needed
 
         case (state)
             // =============================================================
@@ -272,6 +275,7 @@ always @(posedge clk or negedge reset_n) begin
                 mem_write     <= 1'b1;
                 mem_writedata <= 32'd0;
                 msg_count     <= msg_count + 16'd1;
+                irq_pulse     <= 1'b1; // Trigger PIO interrupt
                 state         <= S_CLR_TX;
             end
 

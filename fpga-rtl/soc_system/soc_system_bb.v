@@ -78,13 +78,13 @@ module soc_system (
 	memory_mem_odt,
 	memory_mem_dm,
 	memory_oct_rzqin,
-	pio_led_external_connection_export,
-	reset_reset_n,
+	msg_irq_pio_external_connection_export,
 	msg_mem_0_fpga_mem_address,
 	msg_mem_0_fpga_mem_read,
 	msg_mem_0_fpga_mem_write,
 	msg_mem_0_fpga_mem_writedata,
-	msg_mem_0_fpga_mem_readdata);	
+	msg_mem_0_fpga_mem_readdata,
+	reset_reset_n);	
 
 	input		clk_clk;
 	input		hps_0_f2h_cold_reset_req_reset_n;
@@ -164,11 +164,11 @@ module soc_system (
 	output		memory_mem_odt;
 	output	[3:0]	memory_mem_dm;
 	input		memory_oct_rzqin;
-	output	[9:0]	pio_led_external_connection_export;
-	input		reset_reset_n;
+	input		msg_irq_pio_external_connection_export;
 	input	[7:0]	msg_mem_0_fpga_mem_address;
 	input		msg_mem_0_fpga_mem_read;
 	input		msg_mem_0_fpga_mem_write;
 	input	[31:0]	msg_mem_0_fpga_mem_writedata;
 	output	[31:0]	msg_mem_0_fpga_mem_readdata;
+	input		reset_reset_n;
 endmodule

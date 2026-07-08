@@ -214,7 +214,7 @@ module ghrd_top(
   wire [27:0] stm_hw_events;
 
 // connection of internal logics
-//  assign LEDR = fpga_led_internal;
+  assign LEDR = fpga_led_internal;
   assign stm_hw_events    = {{3{1'b0}},SW, fpga_led_internal, fpga_debounced_buttons};
 
 // =========================================================================
@@ -230,6 +230,7 @@ module ghrd_top(
   wire [15:0] ctrl_msg_count;      // number of messages processed
   wire        ctrl_checksum_err;   // checksum error flag
   wire        ctrl_busy;           // controller busy flag
+  wire        ctrl_irq_pulse;      // 1-cycle interrupt pulse to HPS
 
 // =========================================================================
 //  7-Segment Hex Decoder (active-low for DE1-SoC)
@@ -277,8 +278,6 @@ module ghrd_top(
 
 
     soc_system u0 (
-
-        .pio_led_external_connection_export    (LEDR),     // pio_led_external_connection.export
 		 
         .memory_mem_a                          ( HPS_DDR3_ADDR),                          //          memory.mem_a
         .memory_mem_ba                         ( HPS_DDR3_BA),                         //                .mem_ba
@@ -378,7 +377,10 @@ module ghrd_top(
         .msg_mem_0_fpga_mem_read               (fpga_mem_read),          //                    .read
         .msg_mem_0_fpga_mem_write              (fpga_mem_write),         //                    .write
         .msg_mem_0_fpga_mem_writedata          (fpga_mem_writedata),     //                    .writedata
-        .msg_mem_0_fpga_mem_readdata           (fpga_mem_readdata)       //                    .readdata
+        .msg_mem_0_fpga_mem_readdata           (fpga_mem_readdata),      //                    .readdata
+        
+        // ---- PIO for Message Interrupt (Exported from Qsys) ----
+        .msg_irq_pio_external_connection_export(ctrl_irq_pulse)          // msg_irq_pio_external_connection.export
     );
 
 // =========================================================================
@@ -398,7 +400,8 @@ msg_fpga_controller msg_ctrl (
     .last_msg_type  (ctrl_msg_type),
     .msg_count      (ctrl_msg_count),
     .checksum_err   (ctrl_checksum_err),
-    .busy           (ctrl_busy)
+    .busy           (ctrl_busy),
+    .irq_pulse      (ctrl_irq_pulse)
 );
 
 // Source/Probe megawizard instance

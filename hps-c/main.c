@@ -25,6 +25,10 @@
 // Pointer to shared memory (mapped via /dev/mem)
 static volatile uint32_t *msg_mem;
 
+// UIO file descriptor and PIO map for Interrupts
+static int uio_fd = -1;
+static volatile uint32_t *pio_map = NULL;
+
 // =============================================================================
 // calc_checksum — XOR of header and all payload words
 // =============================================================================
@@ -93,14 +97,33 @@ static int recv_message(uint8_t *msg_type,
                         uint32_t *payload,
                         uint16_t *payload_len)
 {
-    // Wait for FPGA to post a response (RX_FLAG == 1)
-    int timeout = 100000;
-    while (msg_mem[RX_FLAG_WORD] != 1 && --timeout > 0)
-        usleep(10);
+    // Wait for FPGA to post a response using UIO Interrupt
+    if (uio_fd >= 0) {
+        uint32_t irq_count;
+        uint32_t enable = 1;
+        // Unmask interrupt
+        write(uio_fd, &enable, sizeof(uint32_t));
+        // Block until interrupt occurs
+        int res = read(uio_fd, &irq_count, sizeof(uint32_t));
+        if (res < 0) {
+            printf("  ERROR: UIO read failed\n");
+            return -1;
+        }
+        
+        printf("  [DEBUG] Nhận ngắt thành công! Tổng số lần ngắt UIO: %u\n", irq_count);
 
-    if (timeout <= 0) {
-        printf("  ERROR: RX timeout — no response from FPGA\n");
-        return -1;
+        // Clear the Edge Capture register in PIO (offset 3 words)
+        pio_map[3] = 0xF;
+    } else {
+        // Fallback to polling if UIO failed to open
+        int timeout = 100000;
+        while (msg_mem[RX_FLAG_WORD] != 1 && --timeout > 0)
+            usleep(10);
+
+        if (timeout <= 0) {
+            printf("  ERROR: RX timeout — no response from FPGA\n");
+            return -1;
+        }
     }
 
     // Read header
@@ -157,14 +180,6 @@ int main(int argc, char *argv[])
 {
     void *virtual_base;
     int fd;
-
-    printf("\n");
-    printf("========================================\n");
-    printf("  PS-PL Message Communication Demo\n");
-    printf("  Board: DE1-SoC (5CSEMA5F31C6)\n");
-    printf("  Method: Shared Memory via LW bridge\n");
-    printf("========================================\n\n");
-
     // ---- Open /dev/mem ----
     if ((fd = open("/dev/mem", O_RDWR | O_SYNC)) == -1) {
         printf("ERROR: could not open \"/dev/mem\"\n");
@@ -188,6 +203,26 @@ int main(int argc, char *argv[])
           & (unsigned long)HW_REGS_MASK));
 
     printf("Shared memory mapped OK  (msg_mem = %p)\n\n", (void *)msg_mem);
+
+    // ---- Open /dev/uio0 for Interrupts ----
+    uio_fd = open("/dev/uio0", O_RDWR);
+    if (uio_fd < 0) {
+        printf("WARNING: could not open \"/dev/uio0\". Xin vui lòng cấu hình Device Tree và Load Driver UIO.\n");
+        printf("         Chương trình sẽ tự động chuyển về chế độ POLLING cũ.\n\n");
+    } else {
+        pio_map = (volatile uint32_t *)mmap(NULL, 4096, PROT_READ | PROT_WRITE, MAP_SHARED, uio_fd, 0);
+        if (pio_map == MAP_FAILED) {
+            printf("ERROR: UIO mmap() failed\n");
+            close(uio_fd);
+            uio_fd = -1;
+        } else {
+            // Enable PIO interrupts (Interrupt Mask Register is at offset 2)
+            pio_map[2] = 0xF;
+            // Clear any pending interrupts
+            pio_map[3] = 0xF;
+            printf("UIO Interrupt initialized OK.\n\n");
+        }
+    }
 
     // ---- Clear both flags so we start from a known state ----
     msg_mem[TX_FLAG_WORD] = 0;
@@ -244,12 +279,11 @@ int main(int argc, char *argv[])
         }
     }
 
-    // ==================================================================
-    printf("========================================\n");
-    printf("  Demo complete\n");
-    printf("========================================\n\n");
-
     // ---- Cleanup ----
+    if (uio_fd >= 0) {
+        munmap((void *)pio_map, 4096);
+        close(uio_fd);
+    }
     if (munmap(virtual_base, HW_REGS_SPAN) != 0) {
         printf("ERROR: munmap() failed\n");
         close(fd);

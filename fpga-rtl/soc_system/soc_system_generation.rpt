@@ -1,5 +1,5 @@
 Info: Starting: Create HDL design files for synthesis
-Info: qsys-generate C:\QUAN\my_first_hps-fpga\fpga-rtl\soc_system.qsys --synthesis=VERILOG --output-directory=C:\QUAN\my_first_hps-fpga\fpga-rtl\soc_system\synthesis --family="Cyclone V" --part=5CSEMA5F31C6
+Info: qsys-generate C:\QUAN\hps_fpga_com_intr\fpga-rtl\soc_system.qsys --synthesis=VERILOG --output-directory=C:\QUAN\hps_fpga_com_intr\fpga-rtl\soc_system\synthesis --family="Cyclone V" --part=5CSEMA5F31C6
 Progress: Loading fpga-rtl/soc_system.qsys
 Progress: Reading input file
 Progress: Adding clk_0 [clock_source 24.1]
@@ -18,8 +18,8 @@ Progress: Adding msg_mem_0 [msg_shared_mem 1.0]
 Progress: Parameterizing module msg_mem_0
 Progress: Adding onchip_memory2_0 [altera_avalon_onchip_memory2 24.1]
 Progress: Parameterizing module onchip_memory2_0
-Progress: Adding pio_led [altera_avalon_pio 24.1]
-Progress: Parameterizing module pio_led
+Progress: Adding pio [altera_avalon_pio 24.1]
+Progress: Parameterizing module pio
 Progress: Adding sysid_qsys [altera_avalon_sysid_qsys 24.1]
 Progress: Parameterizing module sysid_qsys
 Progress: Building connections
@@ -33,6 +33,7 @@ Warning: soc_system.hps_0: "QSPI clock frequency" (desired_qspi_clk_mhz) request
 Warning: soc_system.hps_0: 1 or more output clock frequencies cannot be achieved precisely, consider revising desired output clock frequencies.
 Warning: soc_system.hps_0: HPS model no longer supports simulation for HPS FPGA Bridges.
 Info: soc_system.jtag_uart: JTAG UART IP input clock need to be at least double (2x) the operating frequency of JTAG TCK on board
+Info: soc_system.pio: PIO inputs are not hardwired in test bench. Undefined values will be read from PIO inputs during simulation.
 Info: soc_system.sysid_qsys: System ID is not assigned automatically. Edit the System ID parameter to provide a unique ID
 Info: soc_system.sysid_qsys: Time stamp will be automatically updated when this component is generated.
 Info: soc_system: Generating "soc_system" for QUARTUS_SYNTH
@@ -54,13 +55,13 @@ Info: intr_capturer_0: "soc_system" instantiated intr_capturer "intr_capturer_0"
 Info: jtag_uart: "soc_system" instantiated altera_avalon_jtag_uart "jtag_uart"
 Info: msg_mem_0: "soc_system" instantiated msg_shared_mem "msg_mem_0"
 Info: onchip_memory2_0: Starting RTL generation for module 'soc_system_onchip_memory2_0'
-Info: onchip_memory2_0:   Generation command is [exec cmd /c {set LC_ALL=C&& C:/quartus/quartus/bin64/perl/bin/perl.exe -I C:/quartus/quartus/bin64/perl/lib -I C:/quartus/quartus/sopc_builder/bin/europa -I C:/quartus/quartus/sopc_builder/bin -I C:/quartus/quartus/../ip/altera/sopc_builder_ip/common -I C:/quartus/quartus/../ip/altera/sopc_builder_ip/altera_avalon_onchip_memory2 -- C:/quartus/quartus/../ip/altera/sopc_builder_ip/altera_avalon_onchip_memory2/generate_rtl.pl --name=soc_system_onchip_memory2_0 --dir=C:/Users/MYPC~1/AppData/Local/Temp/alt0635_2691874898881301024.dir/0005_onchip_memory2_0_gen/ --quartus_dir=C:/quartus/quartus --verilog --config=C:/Users/MYPC~1/AppData/Local/Temp/alt0635_2691874898881301024.dir/0005_onchip_memory2_0_gen//soc_system_onchip_memory2_0_component_configuration.pl --do_build_sim=0}]
+Info: onchip_memory2_0:   Generation command is [exec cmd /c {set LC_ALL=C&& C:/quartus/quartus/bin64/perl/bin/perl.exe -I C:/quartus/quartus/bin64/perl/lib -I C:/quartus/quartus/sopc_builder/bin/europa -I C:/quartus/quartus/sopc_builder/bin -I C:/quartus/quartus/../ip/altera/sopc_builder_ip/common -I C:/quartus/quartus/../ip/altera/sopc_builder_ip/altera_avalon_onchip_memory2 -- C:/quartus/quartus/../ip/altera/sopc_builder_ip/altera_avalon_onchip_memory2/generate_rtl.pl --name=soc_system_onchip_memory2_0 --dir=C:/Users/MYPC~1/AppData/Local/Temp/alt0636_3449859240174070548.dir/0060_onchip_memory2_0_gen/ --quartus_dir=C:/quartus/quartus --verilog --config=C:/Users/MYPC~1/AppData/Local/Temp/alt0636_3449859240174070548.dir/0060_onchip_memory2_0_gen//soc_system_onchip_memory2_0_component_configuration.pl --do_build_sim=0}]
 Info: onchip_memory2_0: Done RTL generation for module 'soc_system_onchip_memory2_0'
 Info: onchip_memory2_0: "soc_system" instantiated altera_avalon_onchip_memory2 "onchip_memory2_0"
-Info: pio_led: Starting RTL generation for module 'soc_system_pio_led'
-Info: pio_led:   Generation command is [exec cmd /c {set LC_ALL=C&& C:/quartus/quartus/bin64/perl/bin/perl.exe -I C:/quartus/quartus/bin64/perl/lib -I C:/quartus/quartus/sopc_builder/bin/europa -I C:/quartus/quartus/sopc_builder/bin -I C:/quartus/quartus/../ip/altera/sopc_builder_ip/common -I C:/quartus/quartus/../ip/altera/sopc_builder_ip/altera_avalon_pio -- C:/quartus/quartus/../ip/altera/sopc_builder_ip/altera_avalon_pio/generate_rtl.pl --name=soc_system_pio_led --dir=C:/Users/MYPC~1/AppData/Local/Temp/alt0635_2691874898881301024.dir/0006_pio_led_gen/ --quartus_dir=C:/quartus/quartus --verilog --config=C:/Users/MYPC~1/AppData/Local/Temp/alt0635_2691874898881301024.dir/0006_pio_led_gen//soc_system_pio_led_component_configuration.pl --do_build_sim=0}]
-Info: pio_led: Done RTL generation for module 'soc_system_pio_led'
-Info: pio_led: "soc_system" instantiated altera_avalon_pio "pio_led"
+Info: pio: Starting RTL generation for module 'soc_system_pio'
+Info: pio:   Generation command is [exec cmd /c {set LC_ALL=C&& C:/quartus/quartus/bin64/perl/bin/perl.exe -I C:/quartus/quartus/bin64/perl/lib -I C:/quartus/quartus/sopc_builder/bin/europa -I C:/quartus/quartus/sopc_builder/bin -I C:/quartus/quartus/../ip/altera/sopc_builder_ip/common -I C:/quartus/quartus/../ip/altera/sopc_builder_ip/altera_avalon_pio -- C:/quartus/quartus/../ip/altera/sopc_builder_ip/altera_avalon_pio/generate_rtl.pl --name=soc_system_pio --dir=C:/Users/MYPC~1/AppData/Local/Temp/alt0636_3449859240174070548.dir/0061_pio_gen/ --quartus_dir=C:/quartus/quartus --verilog --config=C:/Users/MYPC~1/AppData/Local/Temp/alt0636_3449859240174070548.dir/0061_pio_gen//soc_system_pio_component_configuration.pl --do_build_sim=0}]
+Info: pio: Done RTL generation for module 'soc_system_pio'
+Info: pio: "soc_system" instantiated altera_avalon_pio "pio"
 Info: sysid_qsys: "soc_system" instantiated altera_avalon_sysid_qsys "sysid_qsys"
 Info: avalon_st_adapter: Inserting error_adapter: error_adapter_0
 Info: avalon_st_adapter_001: Inserting error_adapter: error_adapter_0
@@ -96,46 +97,46 @@ Info: router_006: "mm_interconnect_0" instantiated altera_merlin_router "router_
 Info: router_007: "mm_interconnect_0" instantiated altera_merlin_router "router_007"
 Info: router_009: "mm_interconnect_0" instantiated altera_merlin_router "router_009"
 Info: fpga_only_master_master_limiter: "mm_interconnect_0" instantiated altera_merlin_traffic_limiter "fpga_only_master_master_limiter"
-Info: Reusing file C:/QUAN/my_first_hps-fpga/fpga-rtl/soc_system/synthesis/submodules/altera_avalon_sc_fifo.v
-Info: Reusing file C:/QUAN/my_first_hps-fpga/fpga-rtl/soc_system/synthesis/submodules/altera_avalon_st_pipeline_base.v
+Info: Reusing file C:/QUAN/hps_fpga_com_intr/fpga-rtl/soc_system/synthesis/submodules/altera_avalon_sc_fifo.v
+Info: Reusing file C:/QUAN/hps_fpga_com_intr/fpga-rtl/soc_system/synthesis/submodules/altera_avalon_st_pipeline_base.v
 Info: onchip_memory2_0_s1_burst_adapter: "mm_interconnect_0" instantiated altera_merlin_burst_adapter "onchip_memory2_0_s1_burst_adapter"
-Info: Reusing file C:/QUAN/my_first_hps-fpga/fpga-rtl/soc_system/synthesis/submodules/altera_merlin_address_alignment.sv
-Info: Reusing file C:/QUAN/my_first_hps-fpga/fpga-rtl/soc_system/synthesis/submodules/altera_avalon_st_pipeline_stage.sv
-Info: Reusing file C:/QUAN/my_first_hps-fpga/fpga-rtl/soc_system/synthesis/submodules/altera_avalon_st_pipeline_base.v
+Info: Reusing file C:/QUAN/hps_fpga_com_intr/fpga-rtl/soc_system/synthesis/submodules/altera_merlin_address_alignment.sv
+Info: Reusing file C:/QUAN/hps_fpga_com_intr/fpga-rtl/soc_system/synthesis/submodules/altera_avalon_st_pipeline_stage.sv
+Info: Reusing file C:/QUAN/hps_fpga_com_intr/fpga-rtl/soc_system/synthesis/submodules/altera_avalon_st_pipeline_base.v
 Info: cmd_demux: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "cmd_demux"
 Info: cmd_demux_002: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "cmd_demux_002"
 Info: cmd_mux: "mm_interconnect_0" instantiated altera_merlin_multiplexer "cmd_mux"
 Info: cmd_mux_001: "mm_interconnect_0" instantiated altera_merlin_multiplexer "cmd_mux_001"
-Info: Reusing file C:/QUAN/my_first_hps-fpga/fpga-rtl/soc_system/synthesis/submodules/altera_merlin_arbitrator.sv
+Info: Reusing file C:/QUAN/hps_fpga_com_intr/fpga-rtl/soc_system/synthesis/submodules/altera_merlin_arbitrator.sv
 Info: cmd_mux_002: "mm_interconnect_0" instantiated altera_merlin_multiplexer "cmd_mux_002"
-Info: Reusing file C:/QUAN/my_first_hps-fpga/fpga-rtl/soc_system/synthesis/submodules/altera_merlin_arbitrator.sv
+Info: Reusing file C:/QUAN/hps_fpga_com_intr/fpga-rtl/soc_system/synthesis/submodules/altera_merlin_arbitrator.sv
 Info: cmd_mux_004: "mm_interconnect_0" instantiated altera_merlin_multiplexer "cmd_mux_004"
-Info: Reusing file C:/QUAN/my_first_hps-fpga/fpga-rtl/soc_system/synthesis/submodules/altera_merlin_arbitrator.sv
+Info: Reusing file C:/QUAN/hps_fpga_com_intr/fpga-rtl/soc_system/synthesis/submodules/altera_merlin_arbitrator.sv
 Info: rsp_demux: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "rsp_demux"
 Info: rsp_demux_001: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "rsp_demux_001"
 Info: rsp_demux_002: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "rsp_demux_002"
 Info: rsp_demux_004: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "rsp_demux_004"
 Info: rsp_mux: "mm_interconnect_0" instantiated altera_merlin_multiplexer "rsp_mux"
-Info: Reusing file C:/QUAN/my_first_hps-fpga/fpga-rtl/soc_system/synthesis/submodules/altera_merlin_arbitrator.sv
+Info: Reusing file C:/QUAN/hps_fpga_com_intr/fpga-rtl/soc_system/synthesis/submodules/altera_merlin_arbitrator.sv
 Info: rsp_mux_002: "mm_interconnect_0" instantiated altera_merlin_multiplexer "rsp_mux_002"
-Info: Reusing file C:/QUAN/my_first_hps-fpga/fpga-rtl/soc_system/synthesis/submodules/altera_merlin_arbitrator.sv
+Info: Reusing file C:/QUAN/hps_fpga_com_intr/fpga-rtl/soc_system/synthesis/submodules/altera_merlin_arbitrator.sv
 Info: fpga_only_master_master_to_onchip_memory2_0_s1_cmd_width_adapter: "mm_interconnect_0" instantiated altera_merlin_width_adapter "fpga_only_master_master_to_onchip_memory2_0_s1_cmd_width_adapter"
-Info: Reusing file C:/QUAN/my_first_hps-fpga/fpga-rtl/soc_system/synthesis/submodules/altera_merlin_address_alignment.sv
-Info: Reusing file C:/QUAN/my_first_hps-fpga/fpga-rtl/soc_system/synthesis/submodules/altera_merlin_burst_uncompressor.sv
+Info: Reusing file C:/QUAN/hps_fpga_com_intr/fpga-rtl/soc_system/synthesis/submodules/altera_merlin_address_alignment.sv
+Info: Reusing file C:/QUAN/hps_fpga_com_intr/fpga-rtl/soc_system/synthesis/submodules/altera_merlin_burst_uncompressor.sv
 Info: avalon_st_adapter: "mm_interconnect_0" instantiated altera_avalon_st_adapter "avalon_st_adapter"
 Info: avalon_st_adapter_001: "mm_interconnect_0" instantiated altera_avalon_st_adapter "avalon_st_adapter_001"
 Info: hps_0_f2h_axi_slave_agent: "mm_interconnect_1" instantiated altera_merlin_axi_slave_ni "hps_0_f2h_axi_slave_agent"
-Info: Reusing file C:/QUAN/my_first_hps-fpga/fpga-rtl/soc_system/synthesis/submodules/altera_merlin_burst_uncompressor.sv
-Info: Reusing file C:/QUAN/my_first_hps-fpga/fpga-rtl/soc_system/synthesis/submodules/altera_avalon_sc_fifo.v
-Info: Reusing file C:/QUAN/my_first_hps-fpga/fpga-rtl/soc_system/synthesis/submodules/altera_merlin_address_alignment.sv
+Info: Reusing file C:/QUAN/hps_fpga_com_intr/fpga-rtl/soc_system/synthesis/submodules/altera_merlin_burst_uncompressor.sv
+Info: Reusing file C:/QUAN/hps_fpga_com_intr/fpga-rtl/soc_system/synthesis/submodules/altera_avalon_sc_fifo.v
+Info: Reusing file C:/QUAN/hps_fpga_com_intr/fpga-rtl/soc_system/synthesis/submodules/altera_merlin_address_alignment.sv
 Info: router: "mm_interconnect_1" instantiated altera_merlin_router "router"
 Info: router_001: "mm_interconnect_1" instantiated altera_merlin_router "router_001"
 Info: cmd_demux: "mm_interconnect_1" instantiated altera_merlin_demultiplexer "cmd_demux"
 Info: cmd_mux: "mm_interconnect_1" instantiated altera_merlin_multiplexer "cmd_mux"
-Info: Reusing file C:/QUAN/my_first_hps-fpga/fpga-rtl/soc_system/synthesis/submodules/altera_merlin_arbitrator.sv
+Info: Reusing file C:/QUAN/hps_fpga_com_intr/fpga-rtl/soc_system/synthesis/submodules/altera_merlin_arbitrator.sv
 Info: rsp_demux: "mm_interconnect_1" instantiated altera_merlin_demultiplexer "rsp_demux"
 Info: rsp_mux: "mm_interconnect_1" instantiated altera_merlin_multiplexer "rsp_mux"
-Info: Reusing file C:/QUAN/my_first_hps-fpga/fpga-rtl/soc_system/synthesis/submodules/altera_merlin_arbitrator.sv
+Info: Reusing file C:/QUAN/hps_fpga_com_intr/fpga-rtl/soc_system/synthesis/submodules/altera_merlin_arbitrator.sv
 Info: border: "hps_io" instantiated altera_interface_generator "border"
 Info: error_adapter_0: "avalon_st_adapter" instantiated error_adapter "error_adapter_0"
 Info: error_adapter_0: "avalon_st_adapter_001" instantiated error_adapter "error_adapter_0"

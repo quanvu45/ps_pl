@@ -120,7 +120,7 @@
          type = "String";
       }
    }
-   element pio_led
+   element pio
    {
       datum _sortIndex
       {
@@ -128,7 +128,7 @@
          type = "int";
       }
    }
-   element pio_led.s1
+   element pio.s1
    {
       datum _lockedAddress
       {
@@ -216,13 +216,13 @@
  <interface name="hps_0_hps_io" internal="hps_0.hps_io" type="conduit" dir="end" />
  <interface name="memory" internal="hps_0.memory" type="conduit" dir="end" />
  <interface
-   name="msg_mem_0_fpga_mem"
-   internal="msg_mem_0.fpga_mem"
+   name="msg_irq_pio_external_connection"
+   internal="pio.external_connection"
    type="conduit"
    dir="end" />
  <interface
-   name="pio_led_external_connection"
-   internal="pio_led.external_connection"
+   name="msg_mem_0_fpga_mem"
+   internal="msg_mem_0.fpga_mem"
    type="conduit"
    dir="end" />
  <interface name="reset" internal="clk_0.clk_in_reset" type="reset" dir="end" />
@@ -851,19 +851,19 @@
   <parameter name="useShallowMemBlocks" value="false" />
   <parameter name="writable" value="true" />
  </module>
- <module name="pio_led" kind="altera_avalon_pio" version="24.1" enabled="1">
+ <module name="pio" kind="altera_avalon_pio" version="24.1" enabled="1">
   <parameter name="bitClearingEdgeCapReg" value="false" />
   <parameter name="bitModifyingOutReg" value="false" />
-  <parameter name="captureEdge" value="false" />
+  <parameter name="captureEdge" value="true" />
   <parameter name="clockRate" value="50000000" />
-  <parameter name="direction" value="Output" />
+  <parameter name="direction" value="Input" />
   <parameter name="edgeType" value="RISING" />
-  <parameter name="generateIRQ" value="false" />
-  <parameter name="irqType" value="LEVEL" />
+  <parameter name="generateIRQ" value="true" />
+  <parameter name="irqType" value="EDGE" />
   <parameter name="resetValue" value="1023" />
   <parameter name="simDoTestBenchWiring" value="false" />
   <parameter name="simDrivenValue" value="0" />
-  <parameter name="width" value="10" />
+  <parameter name="width" value="1" />
  </module>
  <module
    name="sysid_qsys"
@@ -912,7 +912,7 @@
    kind="avalon"
    version="24.1"
    start="hps_0.h2f_lw_axi_master"
-   end="pio_led.s1">
+   end="pio.s1">
   <parameter name="arbitrationPriority" value="1" />
   <parameter name="baseAddress" value="0x0000" />
   <parameter name="defaultConnection" value="false" />
@@ -974,18 +974,18 @@
    start="clk_0.clk"
    end="fpga_only_master.clk" />
  <connection kind="clock" version="24.1" start="clk_0.clk" end="jtag_uart.clk" />
- <connection kind="clock" version="24.1" start="clk_0.clk" end="pio_led.clk" />
+ <connection kind="clock" version="24.1" start="clk_0.clk" end="pio.clk" />
  <connection
    kind="clock"
    version="24.1"
    start="clk_0.clk"
    end="onchip_memory2_0.clk1" />
+ <connection kind="clock" version="24.1" start="clk_0.clk" end="msg_mem_0.clock" />
  <connection
    kind="clock"
    version="24.1"
    start="clk_0.clk"
    end="intr_capturer_0.clock" />
- <connection kind="clock" version="24.1" start="clk_0.clk" end="msg_mem_0.clock" />
  <connection
    kind="clock"
    version="24.1"
@@ -1007,6 +1007,9 @@
    start="hps_0.f2h_irq0"
    end="jtag_uart.irq">
   <parameter name="irqNumber" value="2" />
+ </connection>
+ <connection kind="interrupt" version="24.1" start="hps_0.f2h_irq1" end="pio.irq">
+  <parameter name="irqNumber" value="0" />
  </connection>
  <connection
    kind="interrupt"
@@ -1039,12 +1042,8 @@
    kind="reset"
    version="24.1"
    start="clk_0.clk_reset"
-   end="pio_led.reset" />
- <connection
-   kind="reset"
-   version="24.1"
-   start="clk_0.clk_reset"
    end="msg_mem_0.reset" />
+ <connection kind="reset" version="24.1" start="clk_0.clk_reset" end="pio.reset" />
  <connection
    kind="reset"
    version="24.1"
